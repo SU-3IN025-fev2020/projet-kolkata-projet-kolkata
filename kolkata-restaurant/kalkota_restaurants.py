@@ -115,8 +115,10 @@ def main():
     # a* tetu
     #-------------------------------
     from a_start import a_start
+    from strat import Strat
 
-
+    Strat.set_nb_j(nbPlayers)
+    Strat.set_list_r(goalStates)
 
     def fini(chemin):
         for i in chemin:
@@ -132,8 +134,7 @@ def main():
 
 
         for k in range(nbPlayers):
-            #print(restau[k],"\n")
-            chemin[k] = a_start(posPlayers[k], goalStates[restau[k]], 20, 20, wallStates)
+            chemin[k] = a_start(posPlayers[k], goalStates[Strat.stratTetu(k)], 20, 20, wallStates)
 
 
         while (not fini(chemin)):
