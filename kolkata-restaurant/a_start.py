@@ -74,9 +74,9 @@ class Etat:
             return []
 
 
-    def a_start(debut, goal, y_max, x_max, wall):
-        Etat.reset()
-        Etat.setwall(wall)
-        Etat.setx_max(x_max)
-        Etat.sety_max(y_max)
-        return Etat(debut,0,None, goal, depart).evaluer()
+def a_start(debut, goal, y_max, x_max, wall):
+    Etat.reset()
+    Etat.setwall(wall)
+    Etat.setx_max(x_max)
+    Etat.sety_max(y_max)
+    return Etat(debut,0,None, goal, debut).evaluer()
