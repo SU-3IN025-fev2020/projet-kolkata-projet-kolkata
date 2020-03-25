@@ -32,7 +32,7 @@ def init(_boardname=None):
     game = Game('Cartes/' + name + '.json', SpriteBuilder)
     game.O = Ontology(True, 'SpriteSheet-32x32/tiny_spritesheet_ontology.csv')
     game.populate_sprite_names(game.O)
-    game.fps = 5  # frames per second
+    game.fps = 30  # frames per second
     game.mainiteration()
     game.mask.allow_overlaping_players = True
     #player = game.player
@@ -112,38 +112,46 @@ def main():
 
 
     #-------------------------------
-    # a* sans reflexion
+    # a* tetu
     #-------------------------------
     from a_start import a_start
 
-    chemin = [None]*nbPlayers
-    #print(chemin,"\n")
-    #print(nbPlayers,"\n")
 
 
-    for k in range(nbPlayers):
-        #print(restau[k],"\n")
-        chemin[k] = a_start(posPlayers[k], goalStates[restau[k]], 20, 20, wallStates)
+    def fini(chemin):
+        for i in chemin:
+            if len(i) > 0:
+                return False
+        return True
 
-    score_total = 0
-    while score_total < nbPlayers:
-        for i in range(len(chemin)):
-                if len(chemin[i]) == 0:
-                    #print("continue")
-                    continue
-                next_row,next_col = chemin[i].pop(0)
-                players[i].set_rowcol(next_row,next_col)
-                #print ("pos",i,":",next_row,next_col)
-                game.mainiteration()
-                col=next_col
-                row=next_row
-                if (next_row,next_col) in goalStates:
-                    """o = players[i].ramasse(game.layers)
+
+    for j in range(iterations):
+        chemin = [None]*nbPlayers
+        #print(chemin,"\n")
+        #print(nbPlayers,"\n")
+
+
+        for k in range(nbPlayers):
+            #print(restau[k],"\n")
+            chemin[k] = a_start(posPlayers[k], goalStates[restau[k]], 20, 20, wallStates)
+
+
+        while (not fini(chemin)):
+            for i in range(len(chemin)):
+                    if len(chemin[i]) == 0:
+                        #print("continue")
+                        continue
+                    next_row,next_col = chemin[i].pop(0)
+                    players[i].set_rowcol(next_row,next_col)
+                    #print ("pos",i,":",next_row,next_col)
                     game.mainiteration()
-                    print ("Objet trouvé par le joueur ", i)
-                    goalStates.remove((next_row,next_col)) # on enlève ce goalState de la liste
-                    score[i]+=1"""
-                    score_total += 1
+                    col=next_col
+                    row=next_row
+                    posPlayers[i] = (row,col)
+                    if (row,col) == goalStates[restau[i]]:
+                        game.mainiteration()
+                        print ("Le joueur ", i, " est à son restaurant.")
+
 
     #-------------------------------
     # Boucle principale de déplacements
