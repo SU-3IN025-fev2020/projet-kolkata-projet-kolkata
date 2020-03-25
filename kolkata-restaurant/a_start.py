@@ -63,7 +63,7 @@ class Etat:
             ouest = (x-1,y)
             sens = [nord,sud,est,ouest]
             for (a,b) in sens :
-                if a>=0 and a<x_max and b>=0 and b<ymax and (a,b) not in list(Etat.visite.keys()) and (a,b) not in Etat.wallStates :
+                if a>=0 and a<Etat.x_max and b>=0 and b<Etat.y_max and (a,b) not in list(Etat.visite.keys()) and (a,b) not in Etat.wallStates :
                     self.ajout(Etat((a,b),self.g+1,self, self.goal, self.pos_depart))
             while "Etat.frontiere[0] n'est pas dans visite" :
                 if len(Etat.frontiere)==0:

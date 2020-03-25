@@ -116,27 +116,33 @@ def main():
     #-------------------------------
     from a_start import a_start
 
+    chemin = [None]*nbPlayers
+    #print(chemin,"\n")
+    #print(nbPlayers,"\n")
+
+
     for k in range(nbPlayers):
-        chemin[k] = a_start(players[k], restau[k], 20, 20, wallStates)
+        #print(restau[k],"\n")
+        chemin[k] = a_start(posPlayers[k], goalStates[restau[k]], 20, 20, wallStates)
 
-
-    while "true":
+    score_total = 0
+    while score_total < nbPlayers:
         for i in range(len(chemin)):
                 if len(chemin[i]) == 0:
-                    print("continue")
+                    #print("continue")
                     continue
                 next_row,next_col = chemin[i].pop(0)
                 players[i].set_rowcol(next_row,next_col)
-                print ("pos",i,":",next_row,next_col)
+                #print ("pos",i,":",next_row,next_col)
                 game.mainiteration()
                 col=next_col
                 row=next_row
                 if (next_row,next_col) in goalStates:
-                    o = players[i].ramasse(game.layers)
+                    """o = players[i].ramasse(game.layers)
                     game.mainiteration()
                     print ("Objet trouvé par le joueur ", i)
                     goalStates.remove((next_row,next_col)) # on enlève ce goalState de la liste
-                    score[i]+=1
+                    score[i]+=1"""
                     score_total += 1
 
     #-------------------------------
@@ -147,7 +153,7 @@ def main():
 
 
 
-
+"""
     # bon ici on fait juste plusieurs random walker pour exemple...
 
     for i in range(iterations):
@@ -180,9 +186,9 @@ def main():
 
 
                 break
+"""
 
-
-    pygame.quit()
+pygame.quit()
 
 
 
