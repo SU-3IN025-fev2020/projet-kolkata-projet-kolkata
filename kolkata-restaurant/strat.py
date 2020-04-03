@@ -1,27 +1,81 @@
 import random
-
+import math
 
 class Strat:
-    list_goal_tetu = []
     list_r = []
-    nb_j = 0
+    d = dict()
 
-    def set_nb_j(nb_j):
-        Strat.nb_j = nb_j
 
     def set_list_r(list_r):
         Strat.list_r = list_r
 
-    def initTetu():
-        Strat.list_goal_tetu = [None]*Strat.nb_j
-        for i in range(Strat.nb_j):
-            Strat.list_goal_tetu[i] = Strat.stratRand()
+    def get_goal(self):
+        raise NotImplementedError("not implemented get_goal")
+
+    def repartition(d):
+        for key, value in d.items():
+            d[key] = len(value)
+        Strat.d = d
+
+    def new_strat(self, i):
+        raise NotImplementedError("not implemented new_strat")
 
 
-    def stratRand():
+
+
+class StratAlea(Strat):
+    def get_goal(self):
         return random.randint(0,len(Strat.list_r)-1)
 
-    def stratTetu(id_p):
-        if len(Strat.list_goal_tetu) == 0:
-            Strat.initTetu()
-        return Strat.list_goal_tetu[id_p]
+    def new_strat(self, i):
+        return StratAlea()
+
+
+
+
+
+class StratTetu(Strat) :
+
+    def __init__(self):
+        self.goal = random.randint(0,len(Strat.list_r)-1)
+
+    def get_goal(self):
+        return self.goal
+
+    def new_strat(self, i):
+        return StratTetu()
+
+
+
+class StratMoinsRempli(Strat) :
+
+    def get_goal(self):
+        if len(Strat.d) == 0 :
+            return random.randint(0,len(Strat.list_r)-1)
+        return Strat.list_r.index(min(Strat.d, key=Strat.d.get))
+
+    def new_strat(self, i):
+        return StratMoinsRempli()
+
+
+
+class StratRestauPlusProche(Strat) :
+
+    def __init__(self, list_posPlayers, indice_postPlayers):
+        self.list_posPlayers = list_posPlayers
+        self.indice_postPlayers = indice_postPlayers
+
+    def get_goal(self):
+        dist_mini = -1
+        rest_plus_proche = 0
+        px, py = self.list_posPlayers[self.indice_postPlayers]
+        for i in range(len(Strat.list_r)) :
+            rx, ry = Strat.list_r[i]
+            distance = abs(px - rx) + abs(py - ry)
+            if (distance != 0 and (distance < dist_mini) or dist_mini == -1):
+                dist_mini = distance
+                rest_plus_proche = i
+        return rest_plus_proche
+
+    def new_strat(self, k):
+        return StratRestauPlusProche(self.list_posPlayers, k)
