@@ -32,7 +32,7 @@ def init(_boardname=None):
     game = Game('Cartes/' + name + '.json', SpriteBuilder)
     game.O = Ontology(True, 'SpriteSheet-32x32/tiny_spritesheet_ontology.csv')
     game.populate_sprite_names(game.O)
-    game.fps = 144  # frames per second
+    game.fps = 250  # frames per second
     game.mainiteration()
     game.mask.allow_overlaping_players = True
     #player = game.player
@@ -121,47 +121,21 @@ def main():
     from strat import StratMoinsRempli
     from strat import StratRestauPlusProche
 
+    from tools import gain, fini, strategie
+
+    from tournoi import battle_royal
 
 
     # Strat.set_nb_j(nbPlayers)
     Strat.set_list_r(goalStates)
 
-    def gain(posPlayers, liste_gain, pos_res):
-        d = dict()
-        for i in pos_res :
-            d[i] = []
-        for i in range(len(posPlayers)):
-            d[posPlayers[i]].append(i)
-        for key, value in d.items():
-            if len(value) == 1 :
-                liste_gain[value[0]] = liste_gain[value[0]] + 1
-            elif len(value) > 1 :
-                i = random.randint(0, len(value)-1)
-                liste_gain[value[i]] = liste_gain[value[i]] + 1
-        return d
-
-    def fini(chemin):
-        for i in chemin:
-            if len(i) > 0:
-                return False
-        return True
-
-
-
-    def strategie(L, strat):
-        for j in range(len(L)):
-            for i in range(j*nbPlayers//len(L), min((j+1)*nbPlayers//len(L), len(strat))):
-                strat[i] = L[j].new_strat(i)
-
-
-
-
-    liste_gain = np.zeros(nbPlayers)
 
     strat = [None]*nbPlayers
-    # L = [StratTetu(), StratAlea(), StratMoinsRempli(), StratRestauPlusProche(posPlayers,0)]
-
-    L = [StratRestauPlusProche(posPlayers,0)]
+    L=[]
+    L.append(StratTetu())
+    L.append(StratAlea())
+    L.append(StratMoinsRempli())
+    L.append(StratRestauPlusProche(posPlayers,0))
 
 
     strategie(L, strat)
@@ -169,35 +143,9 @@ def main():
     list_goal = [None]*nbPlayers
 
 # ==== debut iteration
-    for j in range(iterations):
-        chemin = [None]*nbPlayers
-        #print(chemin,"\n")
-        #print(nbPlayers,"\n")
+    battle_royal(iterations, goalStates, posPlayers,
+                list_goal, wallStates, game, strat, players)
 
-
-        for k in range(nbPlayers):
-            list_goal[k] = goalStates[strat[k].get_goal()]
-            chemin[k] = a_start(posPlayers[k], list_goal[k], 20, 20, wallStates)
-
-
-        while (not fini(chemin)):
-            for i in range(len(chemin)):
-                    if len(chemin[i]) == 0:
-                        continue
-                    next_row,next_col = chemin[i].pop(0)
-                    players[i].set_rowcol(next_row,next_col)
-                    game.mainiteration()
-                    col=next_col
-                    row=next_row
-                    posPlayers[i] = (row,col)
-                    if (row,col) == list_goal[i]:
-                        game.mainiteration()
-                        print ("Le joueur ", i, " est à son restaurant.")
-        d = gain(posPlayers, liste_gain, goalStates)
-        Strat.repartition(d)
-
-
-    print("resultat :", liste_gain)
 
     #-------------------------------
     # Boucle principale de déplacements
