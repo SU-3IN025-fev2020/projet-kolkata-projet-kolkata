@@ -97,6 +97,10 @@ class StratRestau :
         list_gain = []
         d = dict()
 
+        def __init__(self, list_r, indice_r):
+                self.indice_r = indice_r
+                self.list_r = listr_r
+
         def set_list_posPlayers(list_posPlayers):
             Strat.list_posPlayers = list_posPlayers
 
@@ -115,10 +119,6 @@ class StratRestau :
 
 class StratRestauUnClient (StratRestau) :
 
-    def __init__(self, list_r, indice_r):
-            self.indice_r = indice_r
-            self.list_r = listr_r
-
     def set_gain(self):
         if len(StratRestau.d.get(self.list_r[self.indice_r])) == 1 :
             list_gain[StratRestau.d.get(self.list_r[self.indice_r])[0]] += 1
@@ -127,10 +127,6 @@ class StratRestauUnClient (StratRestau) :
         return StratRestauPlusProche(self.list_r, i)
 
 class StratRestauDeuxClientMini (StratRestau) :
-
-    def __init__(self, list_r, indice_r):
-        self.indice_r = indice_r
-        self.list_r = listr_r
 
     def set_gain(self):
         if len(StratRestau.d.get(self.list_r[self.indice_r])) >= 2 :
@@ -141,9 +137,6 @@ class StratRestauDeuxClientMini (StratRestau) :
         return StratRestauPlusProche(self.list_r, i)
 
 class StratRestauRobinDesBois (StratRestau):
-    def __init__(self, list_r, indice_r):
-        self.indice_r = indice_r
-        self.list_r = listr_r
 
     def set_gain(self):
         max = -1

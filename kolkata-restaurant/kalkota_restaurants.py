@@ -107,7 +107,6 @@ def main():
     restau=[0]*nbPlayers
     for j in range(nbPlayers):
         c = random.randint(0,nbRestaus-1)
-        print(c)
         restau[j]=c
 
 
@@ -123,7 +122,7 @@ def main():
 
     from tools import gain, fini, strategie
 
-    from tournoi import battle_royal
+    from tournoi import battle_royal, tournoi
 
 
     # Strat.set_nb_j(nbPlayers)
@@ -143,9 +142,9 @@ def main():
     list_goal = [None]*nbPlayers
 
 # ==== debut iteration
-    battle_royal(iterations, goalStates, posPlayers,
-                list_goal, wallStates, game, strat, players)
+    # battle_royal(iterations, posPlayers, list_goal, game, strat)
 
+    tournoi(L, 10, game)
 
     #-------------------------------
     # Boucle principale de déplacements
