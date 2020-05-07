@@ -63,6 +63,8 @@ def tournoi(strat, iterations, game):
         print("score strategie", L[a][1].get_nom(),":",res2)
     print("classement par victoire : ", [(i,classement_f[i]) for i in sorted(classement_f, key=classement_f.get, reverse=True)])
     print("classement par score : ", [(i,classement_f2[i]) for i in sorted(classement_f2, key=classement_f2.get, reverse=True)])
+    return [(i,classement_f[i]) for i in sorted(classement_f, key=classement_f.get, reverse=True)], \
+    [(i,classement_f2[i]) for i in sorted(classement_f2, key=classement_f2.get, reverse=True)]
 
 
 def battle_royal(iterations, posPlayers, list_goal, game, strat, affichage=True):
