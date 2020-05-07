@@ -7,8 +7,8 @@ class Etat:
 
         def __init__(self,position, g, parent, goal, pos_depart):
             self.parent = parent
-            self.pos = position    #la position de la case actuelle
-            self.g = g             #grille
+            self.pos = position    # la position de la case actuelle
+            self.g = g             # pas de l'avancement 
             self.goal = goal
             self.pos_depart = pos_depart
 
