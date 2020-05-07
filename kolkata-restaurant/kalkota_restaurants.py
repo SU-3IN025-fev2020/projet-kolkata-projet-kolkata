@@ -145,14 +145,27 @@ def main():
 # ==== debut iteration
     # battle_royal(iterations, posPlayers, list_goal, game, strat)
 
-    res1, res2 = tournoi(L, 2, game)
+    nb_essai = 200
+    nb_tour = 20
+    res = dict()
+    names = []
+    classement = []
+    scores = []
+    for i in L :
+        res[i.get_nom()] = [0,0]
+    for i in range(nb_essai):
+        res1, res2 = tournoi(L, nb_tour, game)
+        for j in range(len(res1)):
+            res[res1[j][0]][0] = res[res1[j][0]][0] + res1[j][1]/nb_essai
+            res[res2[j][0]][1] = res[res2[j][0]][1] + res2[j][1]/nb_essai
 
-    names = [res1[0][0], res1[1][0], res1[2][0], res1[3][0]]
-    classement = [res1[0][1], res1[1][1], res1[2][1], res1[3][1]]
-    scores = [res2[0][1], res2[1][1], res2[2][1], res2[3][1]]
+    for key, value in res.items():
+        names.append(key)
+        classement.append(value[0])
+        scores.append(value[1])
 
     plt.figure(figsize=(20, 20))
-    plt.gcf().subplots_adjust(left = 0.3, bottom = 0.3, right = 0.7, top = 0.7, wspace = 0.5, hspace = 2)
+    plt.gcf().subplots_adjust(left = 0.19, bottom = 0.23, right = 1.0, top = 0.94, wspace = 0.20, hspace = 0)
     plt.subplot(131)
     plt.bar(names, classement)
     plt.xticks(rotation = 'vertical')
