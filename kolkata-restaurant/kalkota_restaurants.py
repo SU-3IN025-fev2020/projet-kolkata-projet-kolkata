@@ -15,6 +15,7 @@ import glo
 import random
 import numpy as np
 import sys
+import matplotlib.pyplot as plt
 
 
 
@@ -144,7 +145,22 @@ def main():
 # ==== debut iteration
     # battle_royal(iterations, posPlayers, list_goal, game, strat)
 
-    tournoi(L, 10, game)
+    res1, res2 = tournoi(L, 2, game)
+
+    names = [res1[0][0], res1[1][0], res1[2][0], res1[3][0]]
+    classement = [res1[0][1], res1[1][1], res1[2][1], res1[3][1]]
+    scores = [res2[0][1], res2[1][1], res2[2][1], res2[3][1]]
+
+    plt.figure(figsize=(20, 20))
+    plt.gcf().subplots_adjust(left = 0.3, bottom = 0.3, right = 0.7, top = 0.7, wspace = 0.5, hspace = 2)
+    plt.subplot(131)
+    plt.bar(names, classement)
+    plt.xticks(rotation = 'vertical')
+    plt.subplot(132)
+    plt.bar(names, scores)
+    plt.xticks(rotation = 'vertical')
+    plt.suptitle('Résultat du classement et des scores du tournoi')
+    plt.show()
 
     #-------------------------------
     # Boucle principale de déplacements
