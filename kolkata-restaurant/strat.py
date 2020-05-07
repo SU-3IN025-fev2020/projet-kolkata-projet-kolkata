@@ -134,7 +134,7 @@ class StratRestauDeuxClientMini (StratRestau) :
                 list_gain[i] += 1
 
     def new_strat(self, i):
-        return StratRestauPlusProche(self.list_r, i)
+        return StratRestauDeuxClientMini(self.list_r, i)
 
 class StratRestauRobinDesBois (StratRestau):
 
@@ -156,4 +156,4 @@ class StratRestauRobinDesBois (StratRestau):
                 break
 
     def new_strat(self, i):
-        return StratRestauPlusProche(self.list_r, i)
+        return StratRestauRobinDesBois(self.list_r, i)
