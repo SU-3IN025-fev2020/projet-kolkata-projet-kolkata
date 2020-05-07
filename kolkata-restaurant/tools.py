@@ -27,3 +27,8 @@ def strategie(L, strat_player):
     for j in range(len(L)):
         for i in range(j*len(strat_player)//len(L), min((j+1)*len(strat_player)//len(L), len(strat_player))):
             strat_player[i] = L[j].new_strat(i)
+
+def strategie_res(L, strat_res):
+    for j in range(len(L)):
+        for i in range(j*len(strat_res)//len(L), min((j+1)*len(strat_res)//len(L), len(strat_res))):
+            strat_res[i] = L[j].new_strat(j)
